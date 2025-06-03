@@ -1,0 +1,38 @@
+{% extends "club\base.html" %}
+{% load tz %}
+{%block title%}MyFitness|Новости{%endblock %}
+{%block header%}{%endblock %}
+{%block headerDescription%}{% endblock %}
+{%block content%}
+    <div class="features">
+        <div class="news">
+        <h1>Новостная страница</h1>
+        {% if news_list %}
+            {%  for el in news_list %}
+                <div class="alert alert-warning">
+                    <h5>{{ el.setup }}</h5>
+                    <p>{{ el.punchline }}</p>
+                    <p>{{el.created_at}}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+                <h3>Нет новостей</h3>
+        {% endif %}
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1" class="btn btn-outline-primary">&laquo; первая</a>
+                <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline-primary">предыдущая</a>
+            {% endif %}
+            
+            <span class="current" style="margin: 0 10px;">
+                Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+            </span>
+            
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="btn btn-outline-primary">следующая</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-outline-primary">последняя &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+        
+{%endblock %}

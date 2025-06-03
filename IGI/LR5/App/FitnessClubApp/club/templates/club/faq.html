@@ -1,0 +1,56 @@
+{% extends "club\base.html" %}
+{%block title%}MyFitness|FAQ{%endblock %}
+{%block header%}{%endblock %}
+{%block headerDescription%}{% endblock %}
+{%block content%}
+    <div class="contacts">
+        <h1>Страница ответов на частозадаваемые вопросы и словарь терминов и понятий</h1>
+        {% if faq_list %}
+            {%  for el in faq_list %}
+                <div style="border: 2px solid #fff; padding: 12px; border-radius: 20px 300px 20px 20px;">
+                    <h4>{{el.quastion}}</h4>
+                    <p style="font-size: 20px">{{el.answer}}</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            {%if perms.club.change_faq%}
+                            <a href={% url 'update_faq' el.id %} style="margin-right: 10px;">
+                                <button class="btn btn-success">Редактировать</button>
+                            </a>
+                            <form method="post" action="{% url 'delete_faq' el.id %}" style="display: inline;">
+                                {% csrf_token %}
+                                <button class="btn btn-danger" type="submit">Удалить</button>
+                            </form>
+                            {% endif %}
+                        </div>
+                        <p style="margin: 0;">{{el.created_at}}</p>
+                    </div>
+                </div>
+            {% endfor %}
+            
+        {% else %}
+                <h3>Нет вопросов</h3>
+        {% endif %}
+        {%if perms.club.add_faq%}
+            <a href={% url 'create_faq'%} style="margin-right: 10px;">
+                <button class="btn btn-success">Создать новый вопрос/ответ</button>
+            </a>
+        {% endif %}
+        <div class="pagination" style="margin-top: 20px; display: flex; justify-content: center;">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1" class="btn btn-outline-primary">&laquo; первая</a>
+                    <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline-primary">предыдущая</a>
+                {% endif %}
+                
+                <span class="current" style="margin: 0 10px;">
+                    Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+                </span>
+                
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}" class="btn btn-outline-primary">следующая</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-outline-primary">последняя &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+{%endblock %}

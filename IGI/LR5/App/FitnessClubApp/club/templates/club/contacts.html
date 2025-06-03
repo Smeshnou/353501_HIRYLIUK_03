@@ -1,0 +1,60 @@
+{% extends "club\base.html" %}
+{%block title%}MyFitness|Контакты{%endblock %}
+{%block header%}{%endblock %}
+{%block headerDescription%}{% endblock %}
+{%block content%}
+    <div class="contacts">
+        <h1>Контакты</h1>
+        <h2>Наши сотрудники</h2>
+        <div class="row">
+            {% for instructor in  admins %}
+            <div class="col-md-3 mb-4">
+                <div class="card">
+                    {% if instructor.photo %}
+                    <img src="{{ instructor.photo.url }}" class="card-img-top" alt="{{ instructor.first_name }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            {{ instructor.first_name }}
+                        </h5>
+                        <h5 class="card-title">
+                            {{ instructor.last_name }}
+                        </h5>
+                        <p class="card-text">
+                            <i></i> {{ instructor.description }}<br>
+                            <i></i> {{ instructor.email }}<br>
+                            {% if instructor.phone_number %}
+                            <i></i> {{ instructor.phone_number }}
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% for instructor in  instructors %}
+            <div class="col-md-3 mb-4">
+                <div class="card">
+                    {% if instructor.photo %}
+                    <img src="{{ instructor.photo.url }}" class="card-img-top" alt="{{ instructor.first_name }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            {{ instructor.first_name }}
+                        </h5>
+                        <h5 class="card-title">
+                            {{ instructor.last_name }}
+                        </h5>
+                        <p class="card-text">
+                            <i></i> {{ instructor.description }}<br>
+                            <i></i> {{ instructor.email }}<br>
+                            {% if instructor.phone_number %}
+                            <i></i> {{ instructor.phone_number }}
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div> 
+{%endblock %}

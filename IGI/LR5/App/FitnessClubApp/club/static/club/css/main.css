@@ -1,0 +1,128 @@
+body{
+    background: #2c2c2c;
+}
+
+aside {
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: #181818;
+    width: 15%;
+    padding: 2.5%;
+    height: 100%;
+    color: #fff;
+    border-right: 5px solid #4d4d4d;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+main {
+    margin-left: 15%;
+    width: 80%;
+    padding: 20px;
+}
+
+aside img{
+    width: 80px;
+    float: left;
+}
+
+aside .logo {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+aside h3{
+    margin-top: 50px;
+    font-size: 30px;
+}
+
+aside ul {list-style: none;}
+aside ul li{
+    color: #fff;
+    display: block;
+    margin-top: 20px;
+    transition: all .15s ease;
+}
+
+aside ul a{
+    color: #fff;
+    text-decoration: none;
+}
+
+aside ul li:hover, aside ul a:hover{
+    color: #eb5959;
+    text-decoration: none;
+    transform: scale(1.05);
+}
+
+main .contacts{
+    float: left;
+    color: #fff;
+    margin-top: 10px;
+    text-align: left;
+    width: 75%;
+}
+
+main .contacts h1{font-size: 50px;}
+main .contacts p{margin: 20px auto;}
+
+main .features{
+    float: left;
+    color: #fff;
+    margin-top: 100px;
+    text-align: center;
+    width: 75%;
+}
+
+main .features h1{font-size: 50px;}
+main .features p{max-width: 400px; margin: 20px auto;}
+main .news p{max-width: 400px; margin: 20px auto; color: #000; font-weight: bold;}
+main .news h5{max-width: 400px;color: #000;}
+
+.alert-warning{
+    float: left;
+    clear: both;
+    width: 400px;
+    margin: 20px 34%;
+    text-align: left;
+}
+
+td{
+    color: #fff;
+}
+
+p{
+    color: #fff;
+}
+
+.profile-img img{
+    width: 80px;
+    float: left;
+}
+
+.contacts {
+    padding: 20px;
+}
+
+.card {
+    height: 100%;
+    background-color: #181818;
+}
+
+.card .card-img-top{
+    height: 70%;
+    width: 100%;
+}
+
+.card-title{
+    color: #fff;
+}
+
+.contacts .row{
+    width: 1600px;
+}
+
+.dropdown-toggle {
+  display: none;
+}

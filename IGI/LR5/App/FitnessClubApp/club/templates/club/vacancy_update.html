@@ -1,0 +1,16 @@
+{% extends "club\base.html" %}
+{%block title%}MyFitness|Вакансии{%endblock %}
+{%block header%}{%endblock %}
+{%block headerDescription%}{% endblock %}
+{%block content%}
+    <div class="contacts">
+        <h1>Редактирование вакансии</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{form}}
+            <button class="btn btn-success" type="submit">Сохранить</button>
+        </form>  
+
+        
+    </div>
+{%endblock %}

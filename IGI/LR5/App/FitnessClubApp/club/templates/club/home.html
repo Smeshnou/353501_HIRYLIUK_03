@@ -1,0 +1,20 @@
+{% extends "club\base.html" %}
+{%block title%}MyFitness{%endblock %}
+{%block header%}{%endblock %}
+{%block headerDescription%}{% endblock %}
+{%block content%}
+     <div class="features">
+        <div class="news">
+        <h1>Главная страница</h1>
+        {% if news %}
+            <div class="alert alert-warning">
+                <h5>{{ news.setup }}</h5>
+                <p>{{ news.punchline }}</p>
+                <p>{{news.created_at}}</p>
+            </div>
+        {% else %}
+                <h3>Нет новостей</h3>
+        {% endif %}
+        </div>
+    </div>
+{%endblock %}

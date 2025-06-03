@@ -1,0 +1,16 @@
+{% extends "club\base.html" %}
+{%block title%}MyFitness|FAQ{%endblock %}
+{%block header%}{%endblock %}
+{%block headerDescription%}{% endblock %}
+{%block content%}
+    <div class="contacts">
+        <h1>Создание вопросов и ответов</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{form}}
+            <button class="btn btn-success" type="submit">Создать</button>
+        </form>  
+
+        
+    </div>
+{%endblock %}

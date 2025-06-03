@@ -1,0 +1,10 @@
+{% extends "club\base.html" %}
+{%block title%}Логаут{%endblock %}
+{%block header%}Вы вышли из аккаунта{%endblock %}
+{%block headerDescription%} {% endblock %}
+{%block content%}
+    <p>Вы вышли из аккаунта!</p>
+
+    <a href="{% url 'login'%}">Нажмите для повторной авторизации</a>
+        
+{%endblock %}

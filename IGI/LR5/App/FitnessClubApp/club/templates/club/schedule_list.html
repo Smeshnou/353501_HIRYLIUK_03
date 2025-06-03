@@ -1,0 +1,120 @@
+{% extends "club\base.html" %}
+{%block title%}MyFitness|Занятия{%endblock %}
+{%block header%}{%endblock %}
+{%block headerDescription%}{% endblock %}
+{%block content%}
+    <div class="contacts">
+        <h1>Расписание занятий</h1>
+        <div class="container mt-4">
+            <h1 class="mb-4">Расписание занятий</h1>
+            <div>
+                {%if perms.club.add_gymmodel%}
+                    <a href={% url 'create_gym' %} style="margin-right: 10px;">
+                        <button class="btn btn-success">Добавить зал</button>
+                    </a>
+                {% endif %}
+                {%if perms.club.add_schedulemodel %}
+                    <form method="post" action="{% url 'create_schedule' %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button class="btn btn-success" type="submit">Добавить занятие</button>
+                    </form>
+                {% endif %}
+            </div>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <form method="get">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <p for="gym" class="form-label">Зал:</p>
+                                <select name="gym" id="gym" class="form-select">
+                                    {% for gym in gyms %}
+                                    <option value="{{ gym.id }}" {% if request.GET.gym == gym.id|stringformat:"s" %}selected{% endif %}>
+                                        {{ gym.name }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-4 d-flex align-items-end">
+                                <button type="submit" class="btn btn-primary">Фильтровать</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="list-group">
+                {% for schedule in schedules %}
+                <div class="list-group-item mb-3">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{ schedule.name }}</h5>
+                        <small class="text-muted">{{ schedule.duration }} мин.</small>
+                    </div>
+                    <div class="col-md-3">
+                        <img src="{{schedule.gym.photo.url}}" class="img-fluid rounded" alt="{{schedule.gym.name}}">
+                    </div>
+                    <div class="mb-1">
+                        <strong>Зал:</strong> {{ schedule.gym.name }} | 
+                        <strong>Тренер:</strong> {{ schedule.instructor.first_name }} {{ schedule.instructor.last_name }}
+                    </div>
+                    <div class="mb-1">
+                        <strong>Время:</strong> {{ schedule.start_time|date:"d.m.Y H:i" }} - {{ schedule.end_time|date:"H:i" }}
+                        <strong>Стоимость:</strong> {{schedule.price}}BYN
+                    </div>
+                    {% if user.role == "Instructors" or user.role == "Admins" %}
+                        <h3>Записавшиеся участники:</h3>
+                        <ul>
+                            {% for user in schedule.users.all %}
+                            <li>{{ user.username }}</li>
+                            {% empty %}
+                            <li>Пока никто не записался.</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <span class="badge bg-{% if schedule.is_available %}success{% else %}danger{% endif %}">
+                                {% if schedule.is_available %}
+                                Свободных мест: {{ schedule.get_participants}}
+                                {% else %}
+                                Нет мест
+                                {% endif %}
+                            </span>
+                        </div>
+                        {% if perms.club.add_bookingmodel %}
+                        <a href="{% url 'book_schedule' schedule.id %}" class="btn btn-sm btn-primary {% if not schedule.is_available %}disabled{% endif %}">
+                            Записаться
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% empty %}
+                <div class="alert alert-info">Нет доступных занятий по выбранным критериям</div>
+                {% endfor %}
+            </div>
+            
+            {% if is_paginated %}
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
+                        </li>
+                        {% endif %}
+                        
+                        {% for num in page_obj.paginator.page_range %}
+                        <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                        </li>
+                        {% endfor %}
+                        
+                        {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% endif %}
+        </div>
+    </div>
+{%endblock %}

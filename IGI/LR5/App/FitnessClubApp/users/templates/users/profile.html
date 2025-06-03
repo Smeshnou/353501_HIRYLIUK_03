@@ -1,0 +1,28 @@
+{% extends "club\base.html" %}
+{% load static %}
+{%block title%}MyFitness|Профиль{%endblock %}
+{%block header%}{%endblock %}
+{%block headerDescription%} {% endblock %}
+{%block content%}
+
+    <div class="contacts">
+        <h1 style="color: #fff;">Профиль</h1>
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% if user.photo  %}
+                <p><img src="{{user.photo.url}}" height="80" width="80">
+            {% else %}
+                <p><img src="{% static 'users/img/default.png' %}" height="80" width="80">
+            {% endif %}
+            <div class="form-error">{{form.non_field_errors}}</div>
+            {% for f in form %}
+                <p><label class="form-label">{{f.label}}:</label>{{f}}</p>
+                {% if f.errors %}
+                <span class="error">{{ f.errors }}</span>
+            {% endif %}
+            {% endfor %}
+            
+            <button class="btn btn-success" type="submit">Сохранить изменения</button>
+        </form>
+    </div>
+{%endblock %}

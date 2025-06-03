@@ -1,0 +1,60 @@
+{% load static %}
+{% load l10n %}
+{% localize off %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{%block title%}MyFitness{%endblock %}</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <link href="{% static 'club/css/main.css' %}" rel="stylesheet">
+    <script async src="{% static 'club/base.js' %}"></script>
+</head>
+<body>
+    <header>
+        {%block header%}{%endblock %}
+        {%block headerDescription%}{% endblock %}
+    </header>
+    <aside>
+        <img src="{% static 'club/img/icon.png' %}" alt="Логотип">
+        <span class="logo">My
+            Fitness</span>
+        <h3>Навигация</h3>
+        <ul>
+            <a href="{% url 'home'%}"></i><li>Главная</li></a>
+            <a href="{% url 'news_home'%}"><li>Новости</li></a>
+            <a href="{% url 'gym'%}"><li>Расписание</li></a>
+            <a href="{% url 'faq'%}"></i><li>FAQ</li></a>
+            <a href="{% url 'contacts'%}"><li>Контакты</li></a>
+            <a href="{% url 'about'%}"><li>О нас</li></a>
+            <a href="{% url 'comments'%}"><li>Отзывы</li></a>
+            <a href="{% url 'vacancy'%}"><li>Вакансии</li></a>
+            <a href="{% url 'policy'%}"><li>Политика конфиденциальности</li></a>
+            <span style="position: fixed; bottom: 67px; left: 50px; width: 10%;">
+                    © {% now "Y" %} MyFitness. 
+            </span>
+            <span style="position: fixed; bottom: 40px; left: 50px; width: 10%; font-size: 14px">
+                    {% now "d E Y" %} г.
+            </span>
+            {% if user.is_authenticated %}
+                <li style="position: fixed; bottom: 150px; left: 50px; width: 10%;"><a href="{% url 'user_profile'%}">Пользователь: {{ user.get_username }}</a></li>
+                    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button style="position: fixed; bottom: 100px; left: 50px; width: 10%;" class="btn btn-danger" type="submit">Выйти из аккаунта</button>
+                    </form>
+            {% else %}
+                <li style="position: fixed; bottom: 150px; left: 50px; width: 10%;"><a href="{% url 'login'%}?next={{request.path}}">Войти в аккаунт</a></li>
+                <li style="position: fixed; bottom: 110px; left: 50px; width: 10%;"><a href="{% url 'register'%}?next={{request.path}}">Зарегистрироваться</a></li>
+            {% endif %}
+        </ul>
+    </aside>
+    <main>
+        {%block content%}
+        {%endblock %}
+    </main>
+</body>
+</html>
+
+{% endlocalize %}

@@ -1,0 +1,40 @@
+{% extends "club\base.html" %}
+{%block title%}MyFitness|Админ{%endblock %}
+{%block header%}{%endblock %}
+{%block headerDescription%}{% endblock %}
+{%block content%}
+    <div class="contacts">
+        <h1>Пользователи</h1>
+        {% if users %}
+            {%  for el in faq_list %}
+                <div style="border: 2px solid #fff; padding: 12px; border-radius: 20px 300px 20px 20px;">
+                    <h4>{{el.quastion}}</h4>
+                    <p style="font-size: 20px">{{el.answer}}</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            {%if perms.club.change_faq%}
+                            <a href={% url 'update_faq' el.id %} style="margin-right: 10px;">
+                                <button class="btn btn-success">Редактировать</button>
+                            </a>
+                            <form method="post" action="{% url 'delete_faq' el.id %}" style="display: inline;">
+                                {% csrf_token %}
+                                <button class="btn btn-danger" type="submit">Удалить</button>
+                            </form>
+                            {% endif %}
+                        </div>
+                        <p style="margin: 0;">{{el.created_at}}</p>
+                    </div>
+                </div>
+            {% endfor %}
+            
+        {% else %}
+                <h3>Нет вопросов</h3>
+        {% endif %}
+        {%if perms.club.add_users%}
+            <a href={% url 'create_faq'%} style="margin-right: 10px;">
+                <button class="btn btn-success">Создать новый вопрос/ответ</button>
+            </a>
+        {% endif %}
+        
+    </div>
+{%endblock %}

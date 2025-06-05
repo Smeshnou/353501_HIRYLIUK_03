@@ -7,7 +7,7 @@
         <h1>Страница ответов на частозадаваемые вопросы и словарь терминов и понятий</h1>
         {% if faq_list %}
             {%  for el in faq_list %}
-                <div style="border: 2px solid #fff; padding: 12px; border-radius: 20px 300px 20px 20px;">
+                <div style="border: 2px solid #fff; padding: 12px; border-radius: 20px;">
                     <h4>{{el.quastion}}</h4>
                     <p style="font-size: 20px">{{el.answer}}</p>
                     <div style="display: flex; justify-content: space-between; align-items: center;">

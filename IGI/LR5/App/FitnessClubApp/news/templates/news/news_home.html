@@ -10,9 +10,10 @@
         {% if news_list %}
             {%  for el in news_list %}
                 <div class="alert alert-warning">
-                    <h5>{{ el.setup }}</h5>
-                    <p>{{ el.punchline }}</p>
-                    <p>{{el.created_at}}</p>
+                    <img src={{el.img.url}} width="300" hight="300"></img>
+                    <h5>{{ el.title }}</h5>
+                    <p>{{ el.description }}</p>
+                    <p>{{el.created_at|date:"d.m.Y H:i"}}</p>
                 </div>
             {% endfor %}
         {% else %}

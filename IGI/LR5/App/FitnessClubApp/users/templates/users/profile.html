@@ -21,8 +21,42 @@
                 <span class="error">{{ f.errors }}</span>
             {% endif %}
             {% endfor %}
-            
+            <div>
+                {{ calendar|safe }}  <!-- safe для рендера HTML -->
+            </div>
             <button class="btn btn-success" type="submit">Сохранить изменения</button>
         </form>
+        {% if participated_schedules %}
+            <h3>Мои занятия</h3>
+            <ul>
+                {% for schedule in participated_schedules %}
+                {% if schedule.is_valid %}
+                <li>
+                    {{ schedule.name }} в {{ schedule.gym.name }} 
+                    ({{ schedule.start_time|date:"d.m.Y H:i" }} - {{ schedule.end_time|date:"H:i" }})
+                </li>
+                {%endif%}
+                {% empty %}
+                <li>Вы не записаны ни на одно занятие</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+
+        {% if instructed_schedules %}
+        <h3>Мои проводимые занятия</h3>
+        <ul>
+            {% for schedule in instructed_schedules %}
+            {% if schedule.is_valid %}
+            <li>
+                {{ schedule.name }} в {{ schedule.gym.name }} 
+                ({{ schedule.start_time|date:"d.m.Y H:i" }} - {{ schedule.end_time|date:"H:i" }})
+                - Участников: {{ schedule.current_participants }}/{{ schedule.max_participants }}
+            </li>
+            {%endif%}
+            {% endfor %}
+        </ul>
+        {% endif %}
+        
     </div>
 {%endblock %}

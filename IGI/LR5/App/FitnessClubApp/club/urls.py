@@ -18,6 +18,10 @@ urlpatterns = [
     path('comments/create', views.CommentsCreateView.as_view(), name='create_comments'),
     path('gym', views.ScheduleListView.as_view(), name='gym'),
     path('gym/booking/<int:pk>', views.BookingCreate, name='book_schedule'),
+    path('gym/booking/<int:pk>/<str:promo>', views.BookingCreate, name='book_schedule_promo'),
+    path('use-promo/<int:pk>/', views.use_promo, name='use_promo'),
     path('gym/create', views.GymCreateView.as_view(), name='create_gym'),
     path('schedule/create', views.ScheduleCreateView.as_view(), name='create_schedule'),
+    path('statistics', views.statistics, name='statistics'),
+    
 ]

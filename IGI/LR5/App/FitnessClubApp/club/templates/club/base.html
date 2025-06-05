@@ -25,18 +25,22 @@
         <ul>
             <a href="{% url 'home'%}"></i><li>Главная</li></a>
             <a href="{% url 'news_home'%}"><li>Новости</li></a>
+            <a href="{% url 'jokes'%}"><li>Шутки</li></a>
             <a href="{% url 'gym'%}"><li>Расписание</li></a>
             <a href="{% url 'faq'%}"></i><li>FAQ</li></a>
             <a href="{% url 'contacts'%}"><li>Контакты</li></a>
             <a href="{% url 'about'%}"><li>О нас</li></a>
             <a href="{% url 'comments'%}"><li>Отзывы</li></a>
             <a href="{% url 'vacancy'%}"><li>Вакансии</li></a>
+            {% if user.role == "Admins" %}
+                <a href="{% url 'statistics'%}"><li>Статистика</li></a>
+            {% endif %}
             <a href="{% url 'policy'%}"><li>Политика конфиденциальности</li></a>
             <span style="position: fixed; bottom: 67px; left: 50px; width: 10%;">
                     © {% now "Y" %} MyFitness. 
             </span>
             <span style="position: fixed; bottom: 40px; left: 50px; width: 10%; font-size: 14px">
-                    {% now "d E Y" %} г.
+                    {% now "d/m/Y" %} г.
             </span>
             {% if user.is_authenticated %}
                 <li style="position: fixed; bottom: 150px; left: 50px; width: 10%;"><a href="{% url 'user_profile'%}">Пользователь: {{ user.get_username }}</a></li>

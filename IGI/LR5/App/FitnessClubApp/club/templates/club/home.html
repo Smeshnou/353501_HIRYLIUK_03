@@ -1,16 +1,19 @@
 {% extends "club\base.html" %}
-{%block title%}MyFitness{%endblock %}
+{%block title%}MyFitness|Home{%endblock %}
 {%block header%}{%endblock %}
 {%block headerDescription%}{% endblock %}
 {%block content%}
      <div class="features">
         <div class="news">
         <h1>Главная страница</h1>
+        <h3>Цитата дня</h3>
+        <h4>{{quote}}</h4>
         {% if news %}
             <div class="alert alert-warning">
-                <h5>{{ news.setup }}</h5>
-                <p>{{ news.punchline }}</p>
-                <p>{{news.created_at}}</p>
+                <img src={{news.img.url}} width="300" hight="300"></img>
+                <h5>{{ news.title }}</h5>
+                <p>{{ news.description }}</p>
+                <p>{{news.created_at|date:"d.m.Y H:i"}}</p>
             </div>
         {% else %}
                 <h3>Нет новостей</h3>

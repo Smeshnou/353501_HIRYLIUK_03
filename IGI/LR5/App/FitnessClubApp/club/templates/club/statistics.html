@@ -1,0 +1,15 @@
+{% extends "club\base.html" %}
+{%load static%}
+{%block title%}MyFitness|Статистика{%endblock %}
+{%block header%}{%endblock %}
+{%block headerDescription%}{% endblock %}
+{%block content%}
+    <div class="features">
+        <h1>Страница ответов на частозадаваемые вопросы и словарь терминов и понятий</h1>
+        <h4>Диаграмма пользователей по ролям</h4>
+        <img src="{% static 'statistics/stat1.png' %}" height="450" width="600" ></img>
+        <h4>Диаграмма пользователей по возрасту</h4>
+        <img src="{% static 'statistics/stat2.png' %}" height="450" width="600" ></img>
+        
+    </div>
+{%endblock %}

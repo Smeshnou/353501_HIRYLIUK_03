@@ -81,9 +81,13 @@
                             </span>
                         </div>
                         {% if perms.club.add_bookingmodel %}
-                        <a href="{% url 'book_schedule' schedule.id %}" class="btn btn-sm btn-primary {% if not schedule.is_available %}disabled{% endif %}">
-                            Записаться
-                        </a>
+                            {% if schedule in user.participated_schedules.all %}
+                                <p  class="text-muted">Вы записаны на занятие<p>
+                            {%else%}
+                                <a href="{% url 'book_schedule' schedule.id %}" class="btn btn-sm btn-primary {% if not schedule.is_available %}disabled{% endif %}">
+                                    Записаться
+                                </a>
+                            {%endif%}
                         {% endif %}
                     </div>
                 </div>

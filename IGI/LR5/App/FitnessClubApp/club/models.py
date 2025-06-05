@@ -71,6 +71,28 @@ class GymModel(models.Model):
     def __str__(self):
         return self.name
     
+    
+class PromoModel(models.Model):
+    name = models.CharField('Промокод', max_length=100)
+    discount = models.DecimalField(verbose_name='Скидка', max_digits=3, decimal_places=2, default=0.00)
+    end_time = models.DateTimeField('Окончание действия')
+
+    @property
+    def procent(self):
+        return self.discount*100
+
+    def __str__(self):
+        return "{} {}%".format(self.name, self.discount*100)
+        
+    def is_valid(self):
+        now = timezone.now()
+        return now <= self.end_time
+
+    class Meta:
+        verbose_name = 'Промокод'
+        verbose_name_plural = 'Промокоды'
+        ordering = ['end_time']
+    
 class ScheduleModel(models.Model):
     name = models.CharField('Название занятия', max_length=100)
     gym = models.ForeignKey(GymModel, on_delete=models.CASCADE, verbose_name='Зал', related_name='schedules', )
@@ -80,9 +102,11 @@ class ScheduleModel(models.Model):
     
     start_time = models.DateTimeField('Начало')
     end_time = models.DateTimeField('Окончание')
-    
-    
     max_participants = models.PositiveIntegerField('Макс. участников', default=10)
+    
+    def is_valid(self):
+        return timezone.now() < self.start_time
+    
     @property
     def current_participants(self):
         return self.users.count()
@@ -97,24 +121,29 @@ class ScheduleModel(models.Model):
                 name='end_time_after_start_time'
             )
         ]
+        
+    def get_discounted_price(self, promo=None):
+        if promo:
+            return self.price * (1 - promo.discount)
+        return self.price
 
     def __str__(self):
         return f"{self.name} в {self.gym.name} ({self.start_time})"
 
     def duration(self):
-        """Длительность занятия в минутах"""
         return (self.end_time - self.start_time).total_seconds() / 60
 
     def is_available(self):
-        """Есть ли свободные места"""
         return self.max_participants
     
     def get_participants(self):
         return self.max_participants - self.current_participants
     
+
 class BookingModel(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
     schedule = models.ForeignKey(ScheduleModel, on_delete=models.CASCADE, verbose_name='Занятие')
+    promo = models.ForeignKey(PromoModel, on_delete=models.SET_NULL, null=True, blank=True)
 
     class Meta:
         verbose_name = 'Запись'

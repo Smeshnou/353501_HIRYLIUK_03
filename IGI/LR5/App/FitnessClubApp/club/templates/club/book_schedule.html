@@ -1,5 +1,5 @@
 {% extends "club\base.html" %}
-{%block title%}MyFitness|Комментарии{%endblock %}
+{%block title%}MyFitness|Подтверждение{%endblock %}
 {%block header%}{%endblock %}
 {%block headerDescription%}{% endblock %}
 {%block content%}
@@ -11,22 +11,41 @@
         </div>
         <div style="border: 2px solid #fff; padding: 12px; border-radius: 20px;">
                 <h3>{{user.username}}</h3>
-                <p style="font-size: 20px">{{user.first_name}}</p>
-                <p style="font-size: 20px">{{user.last_name}}</p>
+                <p style="font-size: 20px">Имя: {{user.first_name}}</p>
+                <p style="font-size: 20px">Фамилия: {{user.last_name}}</p>
                 
         </div>
         <div style="border: 2px solid #fff; padding: 12px; border-radius: 20px;">
             <h3>{{schedule.name}}</h3>
-            <p style="font-size: 20px">{{schedule.gym.name}}</p>
-            <p style="font-size: 20px">{{schedule.instructor.first_name}}</p>
-            <p style="font-size: 20px">{{schedule.start_time}}</p>
-            <p style="font-size: 20px">{{schedule.end.start_time}}</p>
+            <p style="font-size: 20px">Зал: {{schedule.gym.name}}</p>
+            <p style="font-size: 20px">Инструктор: {{schedule.instructor.first_name}} {{schedule.instructor.last_name}}</p>
+            <p style="font-size: 20px">Начало занятия: {{schedule.start_time|date:"d.m.Y H:i"}}</p>
+            <p style="font-size: 20px">Конец занятия: {{schedule.end_time|date:"d.m.Y H:i"}}</p>
+            <div class="mb-3">
+                <h4>Стоимость:</h4>
+                {% if promo %}
+                    <p class="fs-5 text-decoration-line-through">{{ schedule.price }} BYN</p>
+                    <p class="fs-5 text-success">{{ discounted_price }} BYN (скидка {{ promo.procent }}%)</p>
+                    <span class="badge bg-success">Промокод: {{ promo.name }}</span>
+                {% else %}
+                    <p class="fs-5">{{ schedule.price }} BYN</p>
+                    
+                    <form method="post" action="{% url 'use_promo' pk=schedule.id %}" class="mt-3">
+                        {% csrf_token %}
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" name="promo" placeholder="Введите промокод">
+                            <button class="btn btn-outline-secondary" type="submit">Применить</button>
+                        </div>
+                    </form>
+                {% endif %}
+            </div>
+            
+            <form method="post" action="{% if promo %}{% url 'book_schedule_promo' pk=schedule.id promo=promo.name %}{% else %}{% url 'book_schedule' pk=schedule.id %}{% endif %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary btn-lg">Подтвердить запись</button>
+            </form>
+            
         </div>
-
-        <form method="post">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-primary">Подтвердить</button>
-        </form>
 
        
     </div>

@@ -4,6 +4,20 @@ from django.urls import reverse
 
 # Create your models here.
 class Articles(models.Model):
+    title = models.CharField(verbose_name='Заголовок', null=True)
+    description = models.TextField(verbose_name='Описание', null=True)
+    img = models.FileField(upload_to="news/img/", blank=True, verbose_name="Фотография")
+    created_at = models.DateTimeField(default=timezone.now(), verbose_name='Дата сохранения', null=True)
+    
+    class Meta:
+        verbose_name = "Новость"
+        verbose_name_plural = "Новости"
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return self.title
+    
+class JokeModel(models.Model):
     TYPE_CHOICES = [
         ('general', 'Общие'),
         ('programming', 'Программирование'),
@@ -17,8 +31,8 @@ class Articles(models.Model):
     created_at = models.DateTimeField(default=timezone.now(), verbose_name='Дата сохранения', null=True)
     
     class Meta:
-        verbose_name = "Новость"
-        verbose_name_plural = "Новости"
+        verbose_name = "Шутка"
+        verbose_name_plural = "Шутка"
         ordering = ['-created_at']
     
     def __str__(self):

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import FAQModel, VacancyModel, CommentsModel, GymModel, ScheduleModel, BookingModel
+from .models import FAQModel, VacancyModel, CommentsModel, GymModel, ScheduleModel, BookingModel, PromoModel
 
 # Register your models here.
 
@@ -9,6 +9,7 @@ admin.site.register(CommentsModel)
 admin.site.register(GymModel)
 admin.site.register(ScheduleModel)
 admin.site.register(BookingModel)
+admin.site.register(PromoModel)
 
 # @admin.register(GymModel)
 # class HallAdmin(admin.ModelAdmin):
